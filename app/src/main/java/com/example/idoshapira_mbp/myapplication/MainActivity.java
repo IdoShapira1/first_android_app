@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         button1 = findViewById(R.id.button1);
         button2 =  findViewById(R.id.button2);
@@ -41,49 +41,39 @@ public class MainActivity extends AppCompatActivity {
     public void buttonOnClick1(View v) {
         button1.setBackgroundColor(Color.BLUE);
         button1.setEnabled(false);
-        colorChecker();
+        colorChecker(button1,button3);
     }
     public void buttonOnClick2(View v) {
         button2.setBackgroundColor(Color.GREEN);
         button2.setEnabled(false);
-        colorChecker();
+        colorChecker(button2,button4);
     }
     public void buttonOnClick3(View v) {
         button3.setBackgroundColor(Color.BLUE);
         button3.setEnabled(false);
-        colorChecker();
+        colorChecker(button1,button3);
     }
     public void buttonOnClick4(View v) {
         button4.setBackgroundColor(Color.GREEN);
         button4.setEnabled(false);
-        colorChecker();
+        colorChecker(button2,button4);
     }
 
-    public void colorChecker() {
+    public void colorChecker(Button first, Button second) {
         pressCounter+=1;
-
         if(pressCounter == 2)
         {
             pressCounter=0;
-            if(!button1.isEnabled() && !button3.isEnabled())
+            if(!first.isEnabled() && !second.isEnabled())
            {
-                button1.setBackgroundColor(Color.BLACK);
-                button3.setBackgroundColor(Color.BLACK);
-                button1.setEnabled(false);
-                button3.setEnabled(false);
-                firstSet = false; // dont check again
+                first.setBackgroundResource(R.drawable.pig);
+                second.setBackgroundResource(R.drawable.pig);
+                if(first.getText().toString().equals("Button 1"))
+                    firstSet = false;
+                else
+                    secondSet= false;
 
             }
-            if(!button2.isEnabled() && !button4.isEnabled())
-            {
-                button2.setBackgroundColor(Color.BLACK);
-                button4.setBackgroundColor(Color.BLACK);
-                button2.setEnabled(false);
-                button4.setEnabled(false);
-                secondSet = false; // dont check again
-
-            }
-
             resetButtons();
 
         }
