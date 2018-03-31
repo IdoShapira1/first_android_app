@@ -1,7 +1,6 @@
 package com.example.idoshapira_mbp.myapplication;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +8,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
+import android.widget.Toast;
+import android.os.Handler;
 public class MainActivity extends AppCompatActivity {
 
     final String TAG = "Exe1";
@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private Button button5;
     private Button button6;
     private int pressCounter=0;
-    private boolean firstSet = true;
-    private boolean secondSet = true;
+    private boolean firstSet = true; //buttons 1,3
+    private boolean secondSet = true; //button 2,4
+    private boolean thirdSet = true; // button 5,6
 
 
 
@@ -35,29 +36,83 @@ public class MainActivity extends AppCompatActivity {
         button2 =  findViewById(R.id.button2);
         button3 =  findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
-
+        button5 = findViewById(R.id.button5);
+        button6 = findViewById(R.id.button6);
+        resetButtons();
     }
 
     public void buttonOnClick1(View v) {
-        button1.setBackgroundColor(Color.BLUE);
-        button1.setEnabled(false);
-        colorChecker(button1,button3);
+        switch(v.getId())
+        {
+            case R.id.button1:
+            {
+                button1.setBackgroundColor(Color.BLUE);
+                button1.setEnabled(false);
+                break;
+            }
+            case R.id.button3:
+            {
+                button3.setBackgroundColor(Color.BLUE);
+                button3.setEnabled(false);
+                break;
+            }
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                colorChecker(button1,button3);
+            }
+        },500);
+
+
     }
     public void buttonOnClick2(View v) {
-        button2.setBackgroundColor(Color.GREEN);
-        button2.setEnabled(false);
-        colorChecker(button2,button4);
-    }
+        switch(v.getId())
+        {
+            case R.id.button2:
+            {
+                button2.setBackgroundColor(Color.YELLOW);
+                button2.setEnabled(false);
+                break;
+            }
+            case R.id.button4:
+            {
+                button4.setBackgroundColor(Color.YELLOW);
+                button4.setEnabled(false);
+                break;
+            }
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                colorChecker(button2,button4);
+            }
+        },500);    }
+
+
     public void buttonOnClick3(View v) {
-        button3.setBackgroundColor(Color.BLUE);
-        button3.setEnabled(false);
-        colorChecker(button1,button3);
-    }
-    public void buttonOnClick4(View v) {
-        button4.setBackgroundColor(Color.GREEN);
-        button4.setEnabled(false);
-        colorChecker(button2,button4);
-    }
+        switch(v.getId())
+        {
+            case R.id.button5:
+            {
+                button5.setBackgroundColor(Color.GREEN);
+                button5.setEnabled(false);
+                break;
+            }
+            case R.id.button6:
+            {
+                button6.setBackgroundColor(Color.GREEN);
+                button6.setEnabled(false);
+                break;
+            }
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                colorChecker(button5,button6);
+            }
+        },500);    }
+
 
     public void colorChecker(Button first, Button second) {
         pressCounter+=1;
@@ -65,20 +120,27 @@ public class MainActivity extends AppCompatActivity {
         {
             pressCounter=0;
             if(!first.isEnabled() && !second.isEnabled())
-           {
+            {
                 first.setBackgroundResource(R.drawable.pig);
                 second.setBackgroundResource(R.drawable.pig);
                 if(first.getText().toString().equals("Button 1"))
                     firstSet = false;
-                else
+                else if(first.getText().toString().equals("Button 2"))
                     secondSet= false;
+                else
+                    thirdSet = false;
 
             }
+            if(!firstSet && !secondSet && !thirdSet)
+                finishGame();
             resetButtons();
-
         }
-
     }
+
+    public void finishGame(){
+        Toast.makeText(getApplicationContext(),"GAME FINISHED!",Toast.LENGTH_LONG).show();
+    }
+
     public void resetButtons(){
         if(firstSet)
         {
@@ -94,14 +156,14 @@ public class MainActivity extends AppCompatActivity {
             button2.setEnabled(true);
             button4.setEnabled(true);
         }
-
-
-
+        if(thirdSet)
+        {
+            button5.setBackgroundColor(Color.WHITE);
+            button6.setBackgroundColor(Color.WHITE);
+            button5.setEnabled(true);
+            button6.setEnabled(true);
+        }
     }
-
-
-
-
 
 
     @Override
