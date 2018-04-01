@@ -18,32 +18,56 @@ public class DifficultyPicker extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_difficulty_picker);
-        TextView name = (TextView) findViewById(R.id.playerName);
-        TextView age = (TextView) findViewById(R.id.playerAge);
+        final TextView name = (TextView) findViewById(R.id.playerName);
+        final TextView age = (TextView) findViewById(R.id.playerAge);
+        Button easy = (Button) findViewById(R.id.buttonEasy);
+        Button medium = (Button) findViewById(R.id.buttonMedium);
+        Button hard = (Button) findViewById(R.id.buttonHard);
+        setTexts(name,age);
+        setButtons(easy,medium,hard,name);
+
+    }
+
+    private void setTexts(TextView name, TextView age){ // Set text for name and age
         name.setText(getIntent().getStringExtra("userName")); // set name
-        int year = getIntent().getIntExtra("year",0); // get year
-        int month = getIntent().getIntExtra("month",0); // get month
-        int day = getIntent().getIntExtra("day",0); // get day
-        age.setText("Your age is:"+getAge(year,month,day)+" IS THIS YOUR BIRTHDAY? "+isBirthday(month,day));
+        age.setText("Your age is: "+getIntent().getStringExtra("age"));
+    }
+
+
+    private void setButtons(Button easy, Button medium , Button hard,final TextView name){ // set intents for buttons
+        easy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DifficultyPicker.this,GameScreen.class);
+                intent.putExtra("diff",30);
+                intent.putExtra("name", name.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        medium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DifficultyPicker.this,GameScreen.class);
+                intent.putExtra("diff",45);
+                intent.putExtra("name", name.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        hard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DifficultyPicker.this,GameScreen.class);
+                intent.putExtra("diff",60);
+                intent.putExtra("name", name.getText().toString());
+                startActivity(intent);
+            }
+        });
 
 
     }
 
-    private String getAge(int year, int month, int day){ // calculate Age
-        Calendar dob = Calendar.getInstance();
-        Calendar today = Calendar.getInstance();
-        dob.set(year, month, day);
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
-            age--;
-        }
-        Integer ageInt = new Integer(age);
-        String ageS = ageInt.toString();
-        return ageS;
-    }
 
-    private boolean isBirthday(int month,int day){
-        Calendar today = Calendar.getInstance();
-        return (today.get(Calendar.MONTH) == month && today.get(Calendar.DAY_OF_MONTH) == day); // check month and day
-    }
+
 }

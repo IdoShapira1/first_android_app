@@ -26,7 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DifficultyPicker"></activity>
+        <activity android:name=".DifficultyPicker" />
+        <activity android:name=".GameScreen"></activity>
     </application>
 
 </manifest>
